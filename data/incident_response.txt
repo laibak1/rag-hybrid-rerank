@@ -1,0 +1,11 @@
+Security Incident Response
+
+Incident response is the organised process an organisation follows to detect, contain and recover from a cybersecurity incident. A widely used model, based on NIST guidance, has six phases: Preparation, Identification, Containment, Eradication, Recovery and Lessons Learned.
+
+Preparation means having an incident response plan, a defined team with clear roles, contact lists, logging and monitoring tools, and regular exercises before any incident occurs. Identification is the phase in which alerts from tools such as a SIEM, EDR or intrusion detection system are analysed to confirm whether a real incident is happening and how serious it is.
+
+Containment limits the damage. Short-term containment can include isolating an infected computer from the network or blocking a malicious IP address. Long-term containment may involve applying temporary fixes while the systems are cleaned. Eradication removes the root cause, such as deleting malware, closing the exploited vulnerability, and resetting compromised accounts. Recovery restores systems to normal operation, often from clean backups, and monitors them closely to make sure the attacker does not return.
+
+Lessons Learned is a review meeting held after the incident to document what happened, how well the response worked, and what should be improved.
+
+Incidents are usually classified by severity. A common scheme uses four levels: Critical, High, Medium and Low. Critical incidents, such as active ransomware encryption or a confirmed data breach, require immediate escalation to senior management. Key metrics used to measure security operations include Mean Time to Detect (MTTD), Mean Time to Respond (MTTR) and the percentage of attacks that were blocked automatically.
