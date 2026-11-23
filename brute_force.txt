@@ -1,0 +1,11 @@
+Brute Force Attacks
+
+A brute force attack tries to guess a password, encryption key or hidden page by systematically trying a very large number of possibilities until the correct one is found. Automated tools can try thousands of passwords per second against an online login page, or billions per second against stolen password hashes offline.
+
+There are several variations. A simple brute force attack tries every possible combination of characters. A dictionary attack uses a list of common passwords and words. Credential stuffing uses username and password pairs leaked from other websites, relying on the fact that many people reuse the same password. Password spraying tries a few very common passwords, such as "Password123", against a large number of accounts, which helps the attacker avoid account lockout limits.
+
+Common targets are SSH and RDP services exposed to the internet, web application login pages, email accounts and VPN portals.
+
+Signs of a brute force attack include a large number of failed login attempts in a short time, failed logins for many different usernames from the same IP address, and successful logins from unusual locations right after many failures.
+
+Defences include enforcing strong and long passwords or passphrases, enabling multi-factor authentication (MFA), account lockout or progressive delays after several failed attempts, CAPTCHA on public login forms, blocking or rate limiting suspicious IP addresses, and monitoring authentication logs with a SIEM system. Passwords must be stored using slow, salted hashing algorithms such as bcrypt or Argon2 so that stolen hashes are expensive to crack.

@@ -1,0 +1,11 @@
+SQL Injection
+
+SQL injection (SQLi) is a web application vulnerability that allows an attacker to interfere with the database queries an application makes. It happens when user input, such as text typed into a login form or a search box, is inserted directly into an SQL query without proper handling.
+
+For example, if a login page builds the query by joining strings together, an attacker can type a specially crafted value in the username field that changes the logic of the query. A classic example is input containing ' OR '1'='1, which can make the condition always true and allow the attacker to log in without a valid password.
+
+A successful SQL injection attack can let an attacker read sensitive data such as customer records and password hashes, modify or delete data, bypass authentication, and in some cases execute commands on the database server.
+
+Types of SQL injection include in-band SQLi, where results are returned directly on the web page; error-based SQLi, which uses database error messages to learn about the structure; union-based SQLi, which uses the UNION operator to combine results from other tables; and blind SQLi, where no data is shown and the attacker infers information from true/false responses or time delays.
+
+The primary defence is to use parameterised queries, also called prepared statements, so that user input is always treated as data and never as part of the SQL command. Other measures include input validation, using an ORM framework correctly, giving the application's database account only the minimum privileges it needs, hiding detailed database errors from users, and placing a Web Application Firewall (WAF) in front of the application. SQL injection is listed under the Injection category in the OWASP Top 10.
