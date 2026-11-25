@@ -17,7 +17,7 @@ An **Advanced Retrieval-Augmented Generation** system that combines **keyword se
 | 3. Index | Two indexes: a **BM25** keyword index and a **dense** embedding matrix | `rank-bm25`, `all-MiniLM-L6-v2` |
 | 4. Hybrid retrieval | Top-8 from BM25 and top-8 from dense search are merged with RRF: `score = Σ 1 / (60 + rank)` | NumPy |
 | 5. Re-rank | A cross-encoder reads each (question, chunk) pair together and scores relevance; best 3 are kept | `cross-encoder/ms-marco-MiniLM-L-6-v2` |
-| 6. Generate | Re-ranked chunks go into a prompt that tells the LLM to answer **only** from the context and cite sources | Groq API (`llama-3.3-70b-versatile`) |
+| 6. Generate | Re-ranked chunks go into a prompt that tells the LLM to answer **only** from the context and cite sources | Groq API (`GROQ_MODEL", "openai/gpt-oss-120b`) |
 
 ### Why this is different from basic vector RAG
 
@@ -115,6 +115,6 @@ os.environ["GROQ_API_KEY"] = userdata.get("GROQ_API_KEY")
 [5] Cross-encoder re-ranked top-3:
       7.912  ransomware.txt#2
       ...
-[6] Answer (llama-3.3-70b-versatile):
+[6] Answer (openai/gpt-oss-120b):
 The 3-2-1 rule recommends keeping three copies of data, on two different types of storage, with one copy offline or immutable ... [ransomware.txt]
 ```
