@@ -33,7 +33,7 @@ load_dotenv()
 DATA_DIR = "data"
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 RERANK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-LLM_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+LLM_MODEL = os.getenv("GROQ_MODEL", "GROQ_MODEL", "openai/gpt-oss-120b")
 MAX_CHUNK_WORDS = 90
 CANDIDATES = 8   # chunks taken from each retriever before fusion
 RRF_K = 60       # standard constant for Reciprocal Rank Fusion
