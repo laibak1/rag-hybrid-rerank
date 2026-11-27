@@ -1,6 +1,6 @@
 # Hybrid RAG with Re-ranking – Cybersecurity Knowledge Assistant
 
-An **Advanced Retrieval-Augmented Generation** system that combines **keyword search (BM25)** and **semantic search (dense embeddings)**, merges them with **Reciprocal Rank Fusion (RRF)**, and then **re-ranks** the candidates with a **cross-encoder** before an LLM (Llama on **Groq**) writes the answer.
+An **Advanced Retrieval-Augmented Generation** system that combines **keyword search (BM25)** and **semantic search (dense embeddings)**, merges them with **Reciprocal Rank Fusion (RRF)**, and then **re-ranks** the candidates with a **cross-encoder** before an LLM (**openai/gpt-oss-120b** on **Groq**) writes the answer.
 
 ## Approach
 
@@ -17,7 +17,7 @@ An **Advanced Retrieval-Augmented Generation** system that combines **keyword se
 | 3. Index | Two indexes: a **BM25** keyword index and a **dense** embedding matrix | `rank-bm25`, `all-MiniLM-L6-v2` |
 | 4. Hybrid retrieval | Top-8 from BM25 and top-8 from dense search are merged with RRF: `score = Σ 1 / (60 + rank)` | NumPy |
 | 5. Re-rank | A cross-encoder reads each (question, chunk) pair together and scores relevance; best 3 are kept | `cross-encoder/ms-marco-MiniLM-L-6-v2` |
-| 6. Generate | Re-ranked chunks go into a prompt that tells the LLM to answer **only** from the context and cite sources | Groq API (`GROQ_MODEL", "openai/gpt-oss-120b`) |
+| 6. Generate | Re-ranked chunks go into a prompt that tells the LLM to answer **only** from the context and cite sources | Groq API (`openai/gpt-oss-120b`) |
 
 ### Why this is different from basic vector RAG
 
@@ -42,6 +42,7 @@ rag-hybrid-rerank/
 ├── rag_hybrid.py       # full RAG pipeline
 ├── requirements.txt    # dependencies
 ├── .env.example        # template for the API key
+├── .gitignore
 └── README.md
 ```
 
@@ -54,7 +55,7 @@ rag-hybrid-rerank/
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/<your-username>/rag-hybrid-rerank.git
+   git clone https://github.com/laibak1/rag-hybrid-rerank.git
    cd rag-hybrid-rerank
    ```
 2. Install dependencies
@@ -89,7 +90,7 @@ Options:
 ### Run in Google Colab
 
 ```python
-!git clone https://github.com/<your-username>/rag-hybrid-rerank.git
+!git clone https://github.com/laibak1/rag-hybrid-rerank.git
 %cd rag-hybrid-rerank
 !pip install -q -r requirements.txt
 
@@ -100,7 +101,7 @@ os.environ["GROQ_API_KEY"] = userdata.get("GROQ_API_KEY")
 !python rag_hybrid.py -q "What is the 3-2-1 backup rule?"
 ```
 
-## Example output (illustrative – exact scores will differ)
+## Example output
 
 ```
 [1] Loaded 7 documents from 'data/'
@@ -108,13 +109,15 @@ os.environ["GROQ_API_KEY"] = userdata.get("GROQ_API_KEY")
 [3] Built BM25 keyword index + dense index (384-dim vectors)
 
 [4] Hybrid retrieval
-    BM25 top-3 : ['ransomware.txt#2', ...]
-    Dense top-3: ['ransomware.txt#2', ...]
-    RRF merged -> 12 unique candidates
+    BM25 top-3 : ['ransomware.txt#2', 'incident_response.txt#3', 'malware.txt#4']
+    Dense top-3: ['ransomware.txt#2', 'ransomware.txt#3', 'incident_response.txt#3']
+    RRF merged -> 13 unique candidates
 
 [5] Cross-encoder re-ranked top-3:
-      7.912  ransomware.txt#2
-      ...
+      6.793  ransomware.txt#2
+     -4.978  ransomware.txt#3
+     -7.703  incident_response.txt#3
+
 [6] Answer (openai/gpt-oss-120b):
-The 3-2-1 rule recommends keeping three copies of data, on two different types of storage, with one copy offline or immutable ... [ransomware.txt]
+The 3-2-1 rule advises keeping three copies of data, stored on two different types of storage, with one of those copies kept offline or immutable so that ransomware cannot reach it. [ransomware.txt]
 ```
